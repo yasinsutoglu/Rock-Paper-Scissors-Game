@@ -20,6 +20,14 @@ const game = () => {
     const options = document.querySelectorAll(".options button");
     const playerHand = document.querySelector(".player-hand");
     const computerHand = document.querySelector(".computer-hand");
+    const hands = document.querySelectorAll('.hands img');
+
+    // reset the hand shake animation
+    hands.forEach(hand => {
+        hand.addEventListener('animationend', function(){
+            this.style.animation = '';
+        });
+    });
 
     //computer options
     const computerOptions = ["rock", "paper", "scissors"];
@@ -30,12 +38,19 @@ const game = () => {
         const computerNumber = Math.floor(Math.random() * 3);
         const computerChoice = computerOptions[computerNumber];
 
-        //here is where we call compare hands
-        compareHands(this.textContent, computerChoice)
+        //synchronizing the "score and image change" with animation
+       setTimeout(()=>{
+         //here is where we call compare hands
+         compareHands(this.textContent, computerChoice);
 
-        //Update Images
-        playerHand.src = `./images/${this.textContent}.png`;
-        computerHand.src = `./images/${computerChoice}.png`;
+         //Update Images
+         playerHand.src = `./images/${this.textContent}.png`;
+         computerHand.src = `./images/${computerChoice}.png`;
+       } , 2000);
+
+        //hand shaking animations added
+        playerHand.style.animation = "shakePlayer 2s ease";
+        computerHand.style.animation = "shakeComputer 2s ease";
       });
     });
   };
